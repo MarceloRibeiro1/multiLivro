@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/multilivro
+    username: postgres
+    password: password
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+fcamara:
+  repo:
+    file-path: C:\Users\marcelo.ribeiro\Pictures\netlivro-imagens
+  jwt:
+    secret-key: 46294A404E635266556A576E5A7234753778214125442A472D4B615064536756
