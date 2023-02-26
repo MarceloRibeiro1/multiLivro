@@ -4,7 +4,7 @@ import com.fcamara.multilivro.archive.model.Archive;
 import com.fcamara.multilivro.archive.repository.ArchiveRepository;
 import com.fcamara.multilivro.archive.repository.FileStoreRepository;
 import com.fcamara.multilivro.archive.service.FileService;
-import com.fcamara.multilivro.handler.CustomException;
+import com.fcamara.multilivro.exception.BasicException;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -26,7 +26,7 @@ public class FileServiceImp implements FileService {
     @Override
     public byte[] findFile(String fileName) {
         if (!fileName.matches(PATTERN))
-            throw new CustomException("filename invalid");
+            throw new BasicException("filename invalid");
 
         return fileStoreRepository.readFile(fileName);
     }
@@ -55,7 +55,7 @@ public class FileServiceImp implements FileService {
     @Override
     public void deleteFileById(UUID id) {
         Archive archive = archiveRepository.findById(id)
-                .orElseThrow(() -> new CustomException("No such archive"));
+                .orElseThrow(() -> new BasicException("No such archive"));
 
         archiveRepository.delete(archive);
 

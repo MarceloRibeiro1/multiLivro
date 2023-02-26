@@ -3,7 +3,7 @@ package com.fcamara.multilivro.book.service.implementation;
 import com.fcamara.multilivro.book.model.Author;
 import com.fcamara.multilivro.book.repository.AuthorRepository;
 import com.fcamara.multilivro.book.service.AuthorService;
-import com.fcamara.multilivro.handler.CustomException;
+import com.fcamara.multilivro.exception.BasicException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +16,7 @@ public class AuthorServiceImp implements AuthorService {
 
     @Override
     public Author findAuthor(UUID id) {
-        return repository.findById(id).orElseThrow(() -> new CustomException("No such author"));
+        return repository.findById(id).orElseThrow(() -> new BasicException("No such author"));
     }
 
     @Override

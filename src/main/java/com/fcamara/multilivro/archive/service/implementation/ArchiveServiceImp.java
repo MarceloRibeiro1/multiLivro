@@ -3,7 +3,7 @@ package com.fcamara.multilivro.archive.service.implementation;
 import com.fcamara.multilivro.archive.model.Archive;
 import com.fcamara.multilivro.archive.repository.ArchiveRepository;
 import com.fcamara.multilivro.archive.service.ArchiveService;
-import com.fcamara.multilivro.handler.CustomException;
+import com.fcamara.multilivro.exception.BasicException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +30,6 @@ public class ArchiveServiceImp implements ArchiveService {
     @Override
     public Archive findArchiveById(UUID id) {
         return archiveRepository.findById(id)
-                .orElseThrow(() -> new CustomException("No such archive"));
+                .orElseThrow(() -> new BasicException("No such archive"));
     }
 }

@@ -1,6 +1,6 @@
 package com.fcamara.multilivro.user.service.implementation;
 
-import com.fcamara.multilivro.handler.CustomException;
+import com.fcamara.multilivro.exception.BasicException;
 import com.fcamara.multilivro.user.dto.UserDTO;
 import com.fcamara.multilivro.user.model.AppUser;
 import com.fcamara.multilivro.user.repository.AppUserRepository;
@@ -19,14 +19,14 @@ public class AppUserServiceImp implements AppUserService {
 
     @Override
     public AppUser findUserById(UUID id) {
-        return repository.findById(id).orElseThrow(() -> new CustomException("No such user"));
+        return repository.findById(id).orElseThrow(() -> new BasicException("No such user"));
     }
 
     @Override
     public UserDTO findByUsername(String username) {
         return new UserDTO(
                 repository.findByUsername(username)
-                        .orElseThrow(() -> new CustomException("No such user"))
+                        .orElseThrow(() -> new BasicException("No such user"))
         );
     }
 
@@ -44,7 +44,7 @@ public class AppUserServiceImp implements AppUserService {
     @Override
     public UserDTO update(UserDTO edditedUser) {
         AppUser user = repository.findById(edditedUser.getId())
-                .orElseThrow(() -> new CustomException("No such user"));
+                .orElseThrow(() -> new BasicException("No such user"));
 
 
         user.setUsername(edditedUser.getUsername());

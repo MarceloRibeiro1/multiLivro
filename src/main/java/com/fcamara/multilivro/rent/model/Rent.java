@@ -10,7 +10,7 @@ import java.util.UUID;
 
 @Entity
 @Getter
-public class BookRent extends AbstractAuditingEntity {
+public class Rent extends AbstractAuditingEntity {
     @Id
     @GeneratedValue
     private UUID id;
@@ -21,13 +21,13 @@ public class BookRent extends AbstractAuditingEntity {
     @Enumerated(EnumType.STRING)
     private RentState state = RentState.INITIALIZED;
 
-    public BookRent(AppUser user, Book book) {
+    public Rent(AppUser user, Book book) {
         super();
         this.user = user;
         this.book = book;
     }
 
-    protected BookRent() {
+    protected Rent() {
         super();
     }
 

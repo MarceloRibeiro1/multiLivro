@@ -2,7 +2,7 @@ package com.fcamara.multilivro.configuration;
 
 import com.fcamara.multilivro.archive.repository.FileStoreRepository;
 import com.fcamara.multilivro.archive.repository.implementation.FileStoreRepositoryImp;
-import com.fcamara.multilivro.handler.CustomException;
+import com.fcamara.multilivro.exception.BasicException;
 import com.fcamara.multilivro.user.repository.AppUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -38,7 +38,7 @@ public class ApplicationConfig {
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> userRepository.findByUsername(username)
-                .orElseThrow(() -> new CustomException("No such user"));
+                .orElseThrow(() -> new BasicException("No such user"));
     }
 
     @Bean

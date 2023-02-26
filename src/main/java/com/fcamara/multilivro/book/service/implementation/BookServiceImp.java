@@ -9,7 +9,7 @@ import com.fcamara.multilivro.book.repository.BookFIleRepository;
 import com.fcamara.multilivro.book.repository.BookRecomendationsRepository;
 import com.fcamara.multilivro.book.repository.BookRepository;
 import com.fcamara.multilivro.book.service.BookService;
-import com.fcamara.multilivro.handler.CustomException;
+import com.fcamara.multilivro.exception.BasicException;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,7 +29,7 @@ public class BookServiceImp implements BookService {
     private final BookFIleRepository fileRepository;
     @Override
     public Book findBookById(UUID id) {
-        return repository.findById(id).orElseThrow(() -> new CustomException("No such book"));
+        return repository.findById(id).orElseThrow(() -> new BasicException("No such book"));
     }
 
     @Override

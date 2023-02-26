@@ -1,7 +1,7 @@
 package com.fcamara.multilivro.archive.repository.implementation;
 
 import com.fcamara.multilivro.archive.repository.FileStoreRepository;
-import com.fcamara.multilivro.handler.CustomException;
+import com.fcamara.multilivro.exception.BasicException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
@@ -21,7 +21,7 @@ public class FileStoreRepositoryImp implements FileStoreRepository {
         try (FileOutputStream fos = new FileOutputStream(new File(filePath, fileName))){
             fos.write(data);
         } catch (IOException e) {
-            throw new CustomException("Error saving file");
+            throw new BasicException("Error saving file");
         }
     }
 
@@ -30,7 +30,7 @@ public class FileStoreRepositoryImp implements FileStoreRepository {
         try {
             return Files.readAllBytes(Paths.get(new File(filePath, fileName).toURI()));
         } catch (IOException e) {
-            throw new CustomException("Error reading file");
+            throw new BasicException("Error reading file");
         }
     }
 
@@ -55,7 +55,7 @@ public class FileStoreRepositoryImp implements FileStoreRepository {
 
             return sb.toString();
         } catch (IOException e) {
-            throw new CustomException("Error reading file");
+            throw new BasicException("Error reading file");
         }
     }
 
@@ -64,7 +64,7 @@ public class FileStoreRepositoryImp implements FileStoreRepository {
         try {
             Files.delete(Paths.get(new File(filePath, fileName).toURI()));
         } catch (IOException e) {
-            throw new CustomException("Error deleting file");
+            throw new BasicException("Error deleting file");
         }
     }
 }

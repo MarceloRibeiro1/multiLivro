@@ -1,7 +1,7 @@
 package com.fcamara.multilivro.user.service.implementation;
 
 import com.fcamara.multilivro.configuration.JWT.JWTService;
-import com.fcamara.multilivro.handler.CustomException;
+import com.fcamara.multilivro.exception.BasicException;
 import com.fcamara.multilivro.user.dto.AppUserCreateDto;
 import com.fcamara.multilivro.user.dto.AuthenticationResponse;
 import com.fcamara.multilivro.user.dto.LoginDTO;
@@ -44,10 +44,10 @@ public class AuthServiceImp implements AuthService {
     @Override
     public AuthenticationResponse authenticate(LoginDTO login) {
         AppUser user = userRepository.findByUsername(login.getUsername())
-                .orElseThrow(() -> new CustomException("Username or password incorrect"));
+                .orElseThrow(() -> new BasicException("Username or password incorrect"));
 
         if (!passwordEncoder.matches(login.getPassword(),user.getPassword()))
-            throw new CustomException("Username or password incorrect");
+            throw new BasicException("Username or password incorrect");
 
         String jwtToken = jwtTokenService.generateToken(user);
 
@@ -57,7 +57,7 @@ public class AuthServiceImp implements AuthService {
     @Override
     public UserDTO resetPassword(LoginDTO login) {
         AppUser user = userRepository.findByUsername(login.getUsername())
-                .orElseThrow(() -> new CustomException("Username or password incorrect"));
+                .orElseThrow(() -> new BasicException("Username or password incorrect"));
         user.setPassword(passwordEncoder.encode(login.getPassword()));
 
         return new UserDTO(userRepository.save(user));
@@ -68,7 +68,7 @@ public class AuthServiceImp implements AuthService {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
         return userRepository.findByUsername(username).orElseThrow(
-                () -> new CustomException("Error getting current user")
+                () -> new BasicException("Error getting current user")
         );
     }
 }
