@@ -26,8 +26,8 @@ public class UniqueRentPerActiveBook extends RentValidator {
                     r.getState() == RentState.PARALIZED ||
                     r.getState() == RentState.FINALIZED ||
                     r.getState() == RentState.ARCHIVED
-            ) throw new DuplicateRentEntryException("Duplicate rent entry, reactivate previous rent", HttpStatus.CONFLICT, LogLevel.WARN);
-            throw new DuplicateRentEntryException("Duplicate rent entry, finish first rent", HttpStatus.CONFLICT, LogLevel.WARN);
+            ) throw new DuplicateRentEntryException("Duplicate rent entry: reactivate previous rent", HttpStatus.CONFLICT, LogLevel.WARN);
+            throw new DuplicateRentEntryException("Duplicate rent entry: rent already in course", HttpStatus.CONFLICT, LogLevel.WARN);
         });
 
         checkNext(rent);
