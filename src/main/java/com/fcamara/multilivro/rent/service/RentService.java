@@ -1,6 +1,6 @@
 package com.fcamara.multilivro.rent.service;
 
-import com.fcamara.multilivro.book.dto.BookWithAllAttributesDTOimp;
+import com.fcamara.multilivro.book.dto.BookWithAllAttributesDTO;
 import com.fcamara.multilivro.rent.model.Rent;
 import com.fcamara.multilivro.rent.model.RentState;
 import com.fcamara.multilivro.user.model.AppUser;
@@ -22,5 +22,5 @@ public interface RentService {
     Rent saveBookRent(Rent rent);
     Rent setBookRentState(UUID id, RentState state);
     void deleteBookRentById(UUID id);
-    Optional<BookWithAllAttributesDTOimp> consumeBookByRentId(UUID rentId);
+    Optional<BookWithAllAttributesDTO> consumeBookByRentId(UUID rentId);
 }

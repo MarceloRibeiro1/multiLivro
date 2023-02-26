@@ -1,6 +1,6 @@
 package com.fcamara.multilivro.rent.service.implementation;
 
-import com.fcamara.multilivro.book.dto.BookWithAllAttributesDTOimp;
+import com.fcamara.multilivro.book.dto.BookWithAllAttributesDTO;
 import com.fcamara.multilivro.book.model.Book;
 import com.fcamara.multilivro.book.repository.BookRepository;
 import com.fcamara.multilivro.exception.BasicException;
@@ -31,7 +31,8 @@ public class RentServiceImp implements RentService {
     @Override
     public Rent findBookRentById(UUID id) {
         return repository.findById(id)
-                .orElseThrow(() -> new BasicException("No such book rent"));
+                .orElseThrow(()
+                        -> new BasicException("No such book rent", HttpStatus.NOT_FOUND, LogLevel.INFO));
     }
 
     @Override
@@ -80,7 +81,7 @@ public class RentServiceImp implements RentService {
     }
 
     @Override
-    public Optional<BookWithAllAttributesDTOimp> consumeBookByRentId(UUID rentId) {
+    public Optional<BookWithAllAttributesDTO> consumeBookByRentId(UUID rentId) {
         Rent rent = findBookRentById(rentId);
         return rent.getState().consumeBook(rent.getBook().getId(),bookRepository);
     }

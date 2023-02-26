@@ -15,7 +15,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class BookWithAllAttributesDTOimp {
+public class BookWithAllAttributesDTO {
     private UUID id;
     private String title;
     private Integer pages;
@@ -26,7 +26,7 @@ public class BookWithAllAttributesDTOimp {
     private String year;
     private String publisher;
     private Set<Book> readNext;
-    public BookWithAllAttributesDTOimp(
+    public BookWithAllAttributesDTO(
             BookWithPagesDto bookDto
     ) {
         this.id = bookDto.getId();
@@ -35,7 +35,7 @@ public class BookWithAllAttributesDTOimp {
         this.title = bookDto.getTitle();
         this.archive = bookDto.getArchive();
     }
-    public BookWithAllAttributesDTOimp(
+    public BookWithAllAttributesDTO(
             BookWithRecomendationsDto bookDto
     ) {
         this.id = bookDto.getId();
@@ -44,7 +44,7 @@ public class BookWithAllAttributesDTOimp {
         this.title = bookDto.getTitle();
         this.readNext = bookDto.getReadNext();
     }
-    public BookWithAllAttributesDTOimp(
+    public BookWithAllAttributesDTO(
             BookWithCoverDto bookDto
     ) {
         this.id = bookDto.getId();
