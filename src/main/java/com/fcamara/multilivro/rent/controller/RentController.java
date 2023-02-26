@@ -2,11 +2,13 @@ package com.fcamara.multilivro.rent.controller;
 
 import com.fcamara.multilivro.book.dto.BookWithAllAttributesDTOimp;
 import com.fcamara.multilivro.exception.BasicException;
+import com.fcamara.multilivro.exception.DefaultAbstractException;
 import com.fcamara.multilivro.rent.model.Rent;
 import com.fcamara.multilivro.rent.model.RentState;
 import com.fcamara.multilivro.rent.service.RentService;
 import com.fcamara.multilivro.user.model.AppUser;
 import com.fcamara.multilivro.user.service.AuthService;
+import com.fcamara.multilivro.utils.Util;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -14,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -23,6 +26,7 @@ import java.util.UUID;
 public class RentController {
     private final RentService rentService;
     private final AuthService authService;
+    public static final String RENT_DOMAIN = "rent";
 
     @PatchMapping("/save/{rentId}/{state}")
     public ResponseEntity<Rent> updateBookRent(@PathVariable UUID rentId, @PathVariable RentState state) {
@@ -86,12 +90,17 @@ public class RentController {
      */
     @PostMapping("/new/{bookId}")
     public ResponseEntity<Rent> newRent(@PathVariable UUID bookId) {
-        log.info("Create new Book rent for bookId : " + bookId);
-        AppUser user = authService.getCurrentUser();
-        log.info("Create new Book rent for user : " + user.getId() );
+        try {
+            AppUser user = authService.getCurrentUser();
+            Rent rent = rentService.newRent(bookId, user);
 
-        Rent rent = rentService.newRent(bookId, user);
-
-        return ResponseEntity.ok(rent);
+            return ResponseEntity.ok(rent);
+        } catch (DefaultAbstractException ex) {
+            Util.logger("newRent",this.getClass(),RENT_DOMAIN, ex, Optional.of(bookId));
+            throw ex;
+        } catch (Exception ex) {
+            Util.logger("newRent",this.getClass(),RENT_DOMAIN, ex, Optional.of(bookId));
+            throw ex;
+        }
     }
 }

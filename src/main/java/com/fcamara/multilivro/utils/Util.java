@@ -1,10 +1,10 @@
 package com.fcamara.multilivro.utils;
 
+import com.fcamara.multilivro.exception.BasicException;
 import com.fcamara.multilivro.exception.DefaultAbstractException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Method;
 import java.text.MessageFormat;
 import java.util.Optional;
 
@@ -12,14 +12,15 @@ import java.util.Optional;
 @Slf4j
 public class Util {
     public static void logger(
-            Method method,
+            String method,
+            Class className,
             String domain,
             DefaultAbstractException exception,
             Optional<Object> value){
         String message = MessageFormat.format(
                 "{0} from class: [{1}] in domain {2} throwed: {3}\nPayload: {4}",
-                method.getName(),
-                method.getDeclaringClass().getName(),
+                method,
+                className.getName(),
                 domain.toUpperCase(),
                 exception.getMessage(),
                 value.orElse("null")
@@ -41,9 +42,27 @@ public class Util {
     }
 
     public static void logger(
-            Method method,
+            String method,
+            Class className,
             String domain,
             DefaultAbstractException exception){
-        logger(method, domain, exception, Optional.empty());
+        logger(method, className, domain, exception, Optional.empty());
+    }
+
+    public static void logger(
+            String method,
+            Class className,
+            String domain,
+            Exception exception){
+        logger(method, className, domain, new BasicException(exception.getMessage()), Optional.empty());
+    }
+
+    public static void logger(
+            String method,
+            Class className,
+            String domain,
+            Exception exception,
+            Optional<Object> object){
+        logger(method, className, domain, new BasicException(exception.getMessage()), object);
     }
 }

@@ -4,6 +4,7 @@ import com.fcamara.multilivro.book.dto.BookWithAllAttributesDTOimp;
 import com.fcamara.multilivro.book.model.Book;
 import com.fcamara.multilivro.book.repository.BookRepository;
 import com.fcamara.multilivro.exception.BasicException;
+import com.fcamara.multilivro.exception.LogLevel;
 import com.fcamara.multilivro.rent.model.Rent;
 import com.fcamara.multilivro.rent.model.RentState;
 import com.fcamara.multilivro.rent.repository.RentRepository;
@@ -12,6 +13,7 @@ import com.fcamara.multilivro.user.model.AppUser;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,7 +40,7 @@ public class RentServiceImp implements RentService {
     @Override
     public Rent newRent(UUID bookId, AppUser user) {
         Book book = bookRepository.findById(bookId)
-                .orElseThrow(() -> new BasicException("No such book"));
+                .orElseThrow(() -> new BasicException("No such book", HttpStatus.NOT_FOUND, LogLevel.INFO));
         Rent rent = new Rent(user, book);
         return repository.save(rent);
     }
