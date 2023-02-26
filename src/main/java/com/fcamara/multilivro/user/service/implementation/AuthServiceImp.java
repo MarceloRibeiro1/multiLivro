@@ -46,10 +46,10 @@ public class AuthServiceImp implements AuthService {
     @Override
     public AuthenticationResponse authenticate(LoginDTO login) {
         AppUser user = userRepository.findByUsername(login.getUsername())
-                .orElseThrow(() -> new BasicException("Username or password incorrect"));
+                .orElseThrow(() -> new BasicException("Username or password incorrect", HttpStatus.UNAUTHORIZED, LogLevel.INFO));
 
         if (!passwordEncoder.matches(login.getPassword(),user.getPassword()))
-            throw new BasicException("Username or password incorrect");
+            throw new BasicException("Username or password incorrect", HttpStatus.UNAUTHORIZED, LogLevel.INFO);
 
         String jwtToken = jwtTokenService.generateToken(user);
 
