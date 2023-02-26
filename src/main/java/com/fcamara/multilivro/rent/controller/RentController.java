@@ -76,7 +76,7 @@ public class RentController {
     @GetMapping("/find-all")
     @ApiOperation(value = "Find all User Rents")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, response = Rent.class, message = ""),
+            @ApiResponse(code = 200, message = ""),
             @ApiResponse(code = 500, message = "Error getting current user", response = ExceptionResponse.class),
     })
     public ResponseEntity<Page<Rent>> findAllByUserId(

@@ -73,9 +73,8 @@ public class Util {
 
     public static Pageable getPageable(
             int page,
-            int size,
-            Sort.Direction direction) {
-        return PageRequest.of(page, size, Sort.by(direction));
+            int size) {
+        return PageRequest.of(page, size);
     }
     public static Pageable getPageable(
             int page,
@@ -83,7 +82,7 @@ public class Util {
             Sort.Direction direction,
             String[] sort) {
 
-        if (isNull(sort)) return getPageable(page, size, direction);
+        if (isNull(sort)) return getPageable(page, size);
 
         return PageRequest.of(page, size, Sort.by(direction,sort));
     }
