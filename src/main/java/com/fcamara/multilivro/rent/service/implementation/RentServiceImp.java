@@ -9,6 +9,7 @@ import com.fcamara.multilivro.rent.model.Rent;
 import com.fcamara.multilivro.rent.model.RentState;
 import com.fcamara.multilivro.rent.repository.RentRepository;
 import com.fcamara.multilivro.rent.service.RentService;
+import com.fcamara.multilivro.rent.validation.RentValidator;
 import com.fcamara.multilivro.user.model.AppUser;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -25,6 +26,7 @@ import java.util.UUID;
 public class RentServiceImp implements RentService {
     private final RentRepository repository;
     private final BookRepository bookRepository;
+    private final RentValidator validator;
 
     @Override
     public Rent findBookRentById(UUID id) {
@@ -42,7 +44,7 @@ public class RentServiceImp implements RentService {
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new BasicException("No such book", HttpStatus.NOT_FOUND, LogLevel.INFO));
         Rent rent = new Rent(user, book);
-        return repository.save(rent);
+        return saveBookRent(rent);
     }
 
     @Override
@@ -61,6 +63,7 @@ public class RentServiceImp implements RentService {
 
     @Override
     public Rent saveBookRent(Rent rent) {
+        validate(rent);
         return repository.save(rent);
     }
 
@@ -80,5 +83,9 @@ public class RentServiceImp implements RentService {
     public Optional<BookWithAllAttributesDTOimp> consumeBookByRentId(UUID rentId) {
         Rent rent = findBookRentById(rentId);
         return rent.getState().consumeBook(rent.getBook().getId(),bookRepository);
+    }
+
+    private void validate(Rent rent) {
+        validator.validate(rent);
     }
 }

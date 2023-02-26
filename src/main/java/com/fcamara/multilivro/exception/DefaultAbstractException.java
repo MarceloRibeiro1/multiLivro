@@ -5,9 +5,12 @@ import org.springframework.http.HttpStatus;
 import java.time.Instant;
 
 public abstract class DefaultAbstractException extends RuntimeException{
-    HttpStatus status = HttpStatus.BAD_REQUEST;
-    Instant instant = Instant.now();
-    LogLevel logLevel = LogLevel.ERROR;
+    private HttpStatus status = HttpStatus.BAD_REQUEST;
+    private final Instant instant = Instant.now();
+    private LogLevel logLevel = LogLevel.ERROR;
+
+    public DefaultAbstractException() {
+    }
 
     public DefaultAbstractException(String message) {
         super(message);

@@ -1,6 +1,8 @@
 package com.fcamara.multilivro.rent.repository;
 
+import com.fcamara.multilivro.book.model.Book;
 import com.fcamara.multilivro.rent.model.Rent;
+import com.fcamara.multilivro.user.model.AppUser;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -13,4 +15,5 @@ public interface RentRepository extends PagingAndSortingRepository<Rent, UUID> {
     Page<Rent> findAllByUserId(UUID userId, Pageable pageable);
     Page<Rent> findAllByUserIdAndBookAuthorId(UUID userId, UUID authorId, Pageable pageable);
     Page<Rent> findAllByUserIdAndBookTitleLike(UUID userId, String bookName, Pageable pageable);
+    Iterable<Rent> findAllByUserAndBookAndDeletedFalse(AppUser user, Book book);
 }
