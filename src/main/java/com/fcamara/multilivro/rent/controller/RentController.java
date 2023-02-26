@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.text.MessageFormat;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -243,8 +244,10 @@ public class RentController {
             AppUser user = authService.getCurrentUser();
             Rent rent = rentService.newRent(bookId, user);
 
+            String path = MessageFormat.format("/api/v1/rent/{0}", rent.getId());
+
             URI uri = UriComponentsBuilder
-                    .fromPath("/api/v1/rent/{id}")
+                    .fromPath(path)
                     .buildAndExpand(rent.getId())
                     .toUri();
 
