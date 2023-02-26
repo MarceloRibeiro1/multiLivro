@@ -3,10 +3,15 @@ package com.fcamara.multilivro.utils;
 import com.fcamara.multilivro.exception.BasicException;
 import com.fcamara.multilivro.exception.DefaultAbstractException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
 import java.util.Optional;
+
+import static java.util.Objects.isNull;
 
 @Service
 @Slf4j
@@ -64,5 +69,22 @@ public class Util {
             Exception exception,
             Optional<Object> object){
         logger(method, className, domain, new BasicException(exception.getMessage()), object);
+    }
+
+    public static Pageable getPageable(
+            int page,
+            int size,
+            Sort.Direction direction) {
+        return PageRequest.of(page, size, Sort.by(direction));
+    }
+    public static Pageable getPageable(
+            int page,
+            int size,
+            Sort.Direction direction,
+            String[] sort) {
+
+        if (isNull(sort)) return getPageable(page, size, direction);
+
+        return PageRequest.of(page, size, Sort.by(direction,sort));
     }
 }

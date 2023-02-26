@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,23 +38,31 @@ public class RentController {
         return ResponseEntity.ok(rent);
     }
 
-    @PostMapping("/all")
-    public ResponseEntity<Page<Rent>> findAll(@RequestBody Pageable pageable) {
-        log.info("Get request to find all BookRent");
-
-        return ResponseEntity.ok(rentService.findAllBookRents(pageable));
-    }
-
     @PostMapping("/all/{userId}")
-    public ResponseEntity<Page<Rent>> findAllByUserId(@PathVariable UUID userId, @RequestBody Pageable pageable) {
+    public ResponseEntity<Page<Rent>> findAllByUserId(
+            @PathVariable UUID userId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "ASC") Sort.Direction direction,
+            @RequestParam(required = false) String[] sort) {
         log.info("Get request to find all BookRent by userId : " + userId);
+
+        Pageable pageable = Util.getPageable(page, size, direction, sort);
 
         return ResponseEntity.ok(rentService.getAllBookRentByUserId(userId, pageable));
     }
 
-    @PostMapping("/all/{userId}/{authorId}")
-    public ResponseEntity<Page<Rent>> findAllByUserIdAndAuthor(@PathVariable UUID userId, @PathVariable UUID authorId, @RequestBody Pageable pageable) {
+    @GetMapping("/all/{userId}/{authorId}")
+    public ResponseEntity<Page<Rent>> findAllByUserIdAndAuthor(
+            @PathVariable UUID userId,
+            @PathVariable UUID authorId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "ASC") Sort.Direction direction,
+            @RequestParam(required = false) String[] sort) {
         log.info("Get request to find all BookRent by userId : " + userId);
+
+        Pageable pageable = Util.getPageable(page, size, direction, sort);
 
         return ResponseEntity.ok(rentService.findAllByUserIdAndBookAuthorId(userId, authorId, pageable));
     }
