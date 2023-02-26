@@ -4,14 +4,15 @@ import com.fcamara.multilivro.archive.model.Archive;
 import com.fcamara.multilivro.archive.service.ArchiveService;
 import com.fcamara.multilivro.archive.service.FileArchiveFacade;
 import com.fcamara.multilivro.archive.service.FileService;
+import com.fcamara.multilivro.exception.BasicException;
+import com.fcamara.multilivro.exception.LogLevel;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.UUID;
-
-import static java.util.Objects.isNull;
 
 @Service
 @RequiredArgsConstructor
@@ -20,12 +21,12 @@ public class FileArchiveFacadeImp implements FileArchiveFacade {
     private final ArchiveService archiveService;
     @Override
     public Archive saveFileAndArchive(MultipartFile file, String archiveName) {
-        if (isNull(file.getOriginalFilename())) throw new RuntimeException();
+        if (file.getOriginalFilename() == null || file.getOriginalFilename().lastIndexOf('.') == -1) throw new BasicException("File name cannot be null", HttpStatus.BAD_REQUEST, LogLevel.WARN);
         String fullFileName = StringUtils.cleanPath(file.getOriginalFilename());
         String extension = fullFileName.substring(file.getOriginalFilename().lastIndexOf('.'));
 
         Archive archive = new Archive();
-        archive.setName(archiveName.substring(0, archiveName.lastIndexOf('.')));
+        archive.setName(archiveName);
         archive.setType(extension);
 
         archive = archiveService.saveArchive(archive);
