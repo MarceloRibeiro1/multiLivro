@@ -14,11 +14,7 @@ import java.util.UUID;
 public class ArchiveServiceImp implements ArchiveService {
     private final ArchiveRepository archiveRepository;
     @Override
-    public Archive saveArchive(String name) {
-        UUID id = UUID.randomUUID();
-        Archive archive = new Archive();
-        archive.setName(name);
-        archive.setId(id);
+    public Archive saveArchive(Archive archive) {
         return archiveRepository.save(archive);
     }
 

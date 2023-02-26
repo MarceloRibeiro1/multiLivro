@@ -5,7 +5,7 @@ import com.fcamara.multilivro.archive.service.FileArchiveFacade;
 import com.fcamara.multilivro.book.dto.NewBookDTO;
 import com.fcamara.multilivro.book.model.Book;
 import com.fcamara.multilivro.book.repository.BookCoverRepository;
-import com.fcamara.multilivro.book.repository.BookFIleRepository;
+import com.fcamara.multilivro.book.repository.BookFileRepository;
 import com.fcamara.multilivro.book.repository.BookRecomendationsRepository;
 import com.fcamara.multilivro.book.repository.BookRepository;
 import com.fcamara.multilivro.book.service.BookService;
@@ -26,7 +26,7 @@ public class BookServiceImp implements BookService {
     private final FileArchiveFacade archiveFacade;
     private final BookCoverRepository coverRepository;
     private final BookRecomendationsRepository recommendationsRepository;
-    private final BookFIleRepository fileRepository;
+    private final BookFileRepository fileRepository;
     @Override
     public Book findBookById(UUID id) {
         return repository.findById(id).orElseThrow(() -> new BasicException("No such book"));

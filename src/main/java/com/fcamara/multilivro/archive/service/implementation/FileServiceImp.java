@@ -40,12 +40,12 @@ public class FileServiceImp implements FileService {
     public void saveFile(MultipartFile file, UUID id) {
         try {
             if (file.getOriginalFilename() == null) throw new RuntimeException();
-            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+            String fullFileName = StringUtils.cleanPath(file.getOriginalFilename());
 
-            String fileExtension = id.toString();
-            int i = fileName.lastIndexOf('.');
-            fileStoreRepository.createFile(fileExtension.concat(
-                    fileName.substring(i)),
+            String fileId = id.toString();
+            int i = fullFileName.lastIndexOf('.');
+            fileStoreRepository.createFile(
+                    fileId.concat(fullFileName.substring(i)),
                     file.getBytes());
         } catch (IOException e) {
             throw new RuntimeException(e);

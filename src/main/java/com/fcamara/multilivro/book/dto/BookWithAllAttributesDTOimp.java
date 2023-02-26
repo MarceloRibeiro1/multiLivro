@@ -1,5 +1,6 @@
 package com.fcamara.multilivro.book.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fcamara.multilivro.archive.model.Archive;
 import com.fcamara.multilivro.book.model.Author;
 import com.fcamara.multilivro.book.model.Book;
@@ -13,6 +14,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class BookWithAllAttributesDTOimp {
     private UUID id;
     private String title;

@@ -1,6 +1,7 @@
 package com.fcamara.multilivro.book.controller;
 
 import com.fcamara.multilivro.book.model.BookCover;
+import com.fcamara.multilivro.book.model.BookFile;
 import com.fcamara.multilivro.book.service.AppendService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,14 @@ public class BookAppendController {
             @ModelAttribute BookCover cover,
             @RequestParam MultipartFile file) {
         appendService.appendCover(cover, file);
+
+        return ResponseEntity.noContent().build();
+    }
+    @PostMapping("/book")
+    public ResponseEntity<Void> appendBook(
+            @ModelAttribute BookFile bookFile,
+            @RequestParam MultipartFile file) {
+        appendService.appendFile(bookFile, file);
 
         return ResponseEntity.noContent().build();
     }
