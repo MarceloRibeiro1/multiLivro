@@ -1,6 +1,7 @@
 package com.fcamara.multilivro.rent.service.implementation;
 
 import com.fcamara.multilivro.book.dto.BookWithAllAttributesDTO;
+import com.fcamara.multilivro.book.model.Author;
 import com.fcamara.multilivro.book.model.Book;
 import com.fcamara.multilivro.book.repository.BookRepository;
 import com.fcamara.multilivro.exception.BasicException;
@@ -14,10 +15,13 @@ import com.fcamara.multilivro.user.model.AppUser;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.Predicate;
 import java.util.Optional;
 import java.util.UUID;
 @Repository
@@ -59,7 +63,22 @@ public class RentServiceImp implements RentService {
     }
     @Override
     public Page<Rent> findAllByUserIdAndBookAuthorId(UUID userId, String name, Pageable pageable) {
-        return repository.findAllByUserIdAndBookAuthorId(userId, name, pageable);
+        Specification<Rent> nameSpec = (root, query, criteriaBuilder) -> {
+            Join<Rent, Book> bookJoin = root.join("book");
+            Join<Book, Author> authorJoin = bookJoin.join("author");
+            String likeSearch = "%" + name + "%";
+            Predicate nameLike = criteriaBuilder.like(criteriaBuilder.lower(authorJoin.get("name")), likeSearch);
+            Predicate aliasLike = criteriaBuilder.like(criteriaBuilder.lower(authorJoin.get("alias")), likeSearch);
+            return criteriaBuilder.or(nameLike, aliasLike);
+        };
+        Specification<Rent> user = (root, query, criteriaBuilder) -> {
+            Join<Rent, AppUser> bookJoin = root.join("user");
+            return criteriaBuilder.equal(bookJoin.get("id"),userId);
+        };
+
+        return repository.findAll(
+                Specification.where(user).and(nameSpec),
+                pageable);
     }
 
     @Override
