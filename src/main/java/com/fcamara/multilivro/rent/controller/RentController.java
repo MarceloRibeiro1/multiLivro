@@ -99,23 +99,23 @@ public class RentController {
     }
 
     /**
-     * {@code GET /author/{authorId}} : Filter the rents for the specified book
+     * {@code GET /author/{authorName}} : Filter the rents for the specified book
      *
-     * @param authorId the id from the author tho serach for rents
+     * @param authorName the name from the author tho serach for rents
      * @param page query parameter to indicate the page to search for
      * @param size query parameter to indicate the size of the page to search for
      * @param direction query parameter to indicate the direction to search for
      * @param sort query parameter to indicate the how to sort for
      * @return Page of the specified Rent
      */
-    @GetMapping("/author/{authorId}")
+    @GetMapping("/author/{authorName}")
     @ApiOperation(value = "Find User Rents by Author")
     @ApiResponses(value = {
             @ApiResponse(code = 200, response = Rent.class, message = ""),
             @ApiResponse(code = 500, message = "Error getting current user", response = ExceptionResponse.class),
     })
     public ResponseEntity<Page<Rent>> findAllByUserndAuthor(
-            @PathVariable UUID authorId,
+            @PathVariable String authorName,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "ASC") Sort.Direction direction,
@@ -124,7 +124,7 @@ public class RentController {
             AppUser user = authService.getCurrentUser();
             Pageable pageable = Util.getPageable(page, size, direction, sort);
 
-            return ResponseEntity.ok(rentService.findAllByUserIdAndBookAuthorId(user.getId(), authorId, pageable));
+            return ResponseEntity.ok(rentService.findAllByUserIdAndBookAuthorId(user.getId(), authorName, pageable));
 
         } catch (DefaultAbstractException ex) {
             Util.logger("findAllByUserndAuthor",this.getClass(),RENT_DOMAIN, ex);

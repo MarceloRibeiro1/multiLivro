@@ -15,7 +15,9 @@ import java.util.UUID;
 
 @Repository
 public interface BookRepository extends PagingAndSortingRepository<Book, UUID> {
+    @Query("select b from Book b where lower(b.author.alias) like %:alias% and b.deleted = false")
     Page<Book> findAllByAuthor_AliasAndDeletedFalse(String alias, Pageable pageable);
+    @Query("select b from Book b where lower(b.title) like %:title% and b.deleted = false")
     Page<Book> findAllByTitleLikeAndDeletedFalse(String title, Pageable pageable);
     @Query(value =
             "select b.id as id, b.author as author, b.category as category, " +

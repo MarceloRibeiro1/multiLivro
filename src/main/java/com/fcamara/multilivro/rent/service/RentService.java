@@ -18,7 +18,7 @@ public interface RentService {
     Rent newRent(UUID bookId, AppUser user);
     Page<Rent> findAllBookRents(Pageable pageable);
     Page<Rent> getAllBookRentByUserId(UUID userId, Pageable pageable);
-    Page<Rent> findAllByUserIdAndBookAuthorId(UUID userId, UUID authorId, Pageable pageable);
+    Page<Rent> findAllByUserIdAndBookAuthorId(UUID userId, String name, Pageable pageable);
     Rent saveBookRent(Rent rent);
     Rent setBookRentState(UUID id, RentState state);
     void deleteBookRentById(UUID id);

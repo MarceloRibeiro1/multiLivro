@@ -22,7 +22,6 @@ public class BookFile extends AbstractAuditingEntity {
     @ApiModelProperty(hidden = true)
     private Archive archive;
     private UUID bookId;
-    @ApiModelProperty(hidden = true)
     private Integer version = 0;
 
 }

@@ -58,8 +58,8 @@ public class RentServiceImp implements RentService {
         return repository.findAllByUserId(userId, pageable);
     }
     @Override
-    public Page<Rent> findAllByUserIdAndBookAuthorId(UUID userId, UUID authorId, Pageable pageable) {
-        return repository.findAllByUserIdAndBookAuthorId(userId, authorId, pageable);
+    public Page<Rent> findAllByUserIdAndBookAuthorId(UUID userId, String name, Pageable pageable) {
+        return repository.findAllByUserIdAndBookAuthorId(userId, name, pageable);
     }
 
     @Override
