@@ -48,14 +48,13 @@ public class BookServiceImp implements BookService {
             NewBookDTO fullBook,
             MultipartFile coverFile,
             MultipartFile pagesFile) {
-        UUID id = UUID.randomUUID();
-        fullBook.setIds(id);
+        Book book = repository.save(fullBook.getBook());
+        fullBook.setIds(book.getId());
 
         Archive coverArchive = archiveFacade.saveFileAndArchive(coverFile, coverFile.getName());
         Archive pagesArchive = archiveFacade.saveFileAndArchive(pagesFile, pagesFile.getName());
         fullBook.getCover().setArchive(coverArchive);
         fullBook.getFile().setArchive(pagesArchive);
-        repository.save(fullBook.getBook());
         coverRepository.save(fullBook.getCover());
         fileRepository.save(fullBook.getFile());
         recommendationsRepository.save(fullBook.getRecomendations());

@@ -19,7 +19,6 @@ public class NewBookDTO {
     private BookFile file;
     private BookRecomendations recomendations;
     public void setIds(UUID id){
-        book.setId(id);
         cover.setBookId(id);
         recomendations.setBookId(id);
         file.setBookId(id);
