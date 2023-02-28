@@ -4,6 +4,17 @@
 
 
 ### :construction: Projeto em construção | Project under construction :construction:
+Este é um projeto de estudos pessoal com o objetovo de melhorar as boas práticas com Java.
+
+This is a personal study project to improve good pratices in Java.
+
+
+## :hammer: Funcionalidades do projeto | Project features
+Para acessar a API pode ser feito pelo Swagger no `http://localhost:8080/swagger-ui.html`.
+Lá você tem acesso a todas funcionalidades, cadastro de usuários, autores, livros e o principal: Fazer aluguel de livros e também acessar seu conteúdo.
+Em cada livro você pode cadastrar junto sua capa com informações o o arquvio juntamente com o texto, nessa aplicação é possível inclusive ter mais de uma versão de capa ou do livro em si.
+O aluguel tem diferentes estados nos quais alteram a interação do usuário com o livro, quando for ler o livro é possível pagear pelas linhas do livro e ler como se fossem páginas em si.
+ 
 
 ### :white_check_mark: Tecnologias Utilizadas | Technologies used
 - `Spring Boot`
