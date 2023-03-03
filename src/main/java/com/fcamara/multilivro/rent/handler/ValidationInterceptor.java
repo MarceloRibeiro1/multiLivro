@@ -4,6 +4,8 @@ import com.fcamara.multilivro.rent.controller.RentController;
 import com.fcamara.multilivro.rent.model.Rent;
 import com.fcamara.multilivro.rent.repository.RentRepository;
 import com.fcamara.multilivro.rent.validation.RentValidator;
+import com.fcamara.multilivro.user.model.AppUser;
+import com.fcamara.multilivro.user.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -16,11 +18,13 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 @RequiredArgsConstructor
 public class ValidationInterceptor implements HandlerInterceptor {
     private final RentValidator validator;
     private final RentRepository repository;
+    private final AuthService authService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -36,7 +40,14 @@ public class ValidationInterceptor implements HandlerInterceptor {
     private Optional<Rent> getRentFromRequest(HttpServletRequest request) {
         Map<String, String> pathVariables = (Map<String, String>) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
         String uuid = pathVariables.get("rentId");
-        if (isNull(uuid)) return Optional.empty();
+        if (isNull(uuid)) {
+            String bookId = pathVariables.get("bookId");
+            if (nonNull(bookId)) {
+                AppUser currentUser = authService.getCurrentUser();
+                return Optional.of(new Rent(currentUser, bookId));
+            }
+            return Optional.empty();
+        };
         return repository.findById(UUID.fromString(uuid));
     }
 

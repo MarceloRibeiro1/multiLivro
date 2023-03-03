@@ -32,6 +32,12 @@ public class Rent extends AbstractAuditingEntity {
     public Rent() {
     }
 
+    public Rent(AppUser currentUser, String bookId) {
+        this.user = currentUser;
+        this.book = new Book();
+        this.book.setId(UUID.fromString(bookId));
+    }
+
     public void setState(RentState state) {
         this.state = state;
     }
