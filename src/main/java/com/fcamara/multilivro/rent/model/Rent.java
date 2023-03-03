@@ -29,8 +29,7 @@ public class Rent extends AbstractAuditingEntity {
         this.book = book;
     }
 
-    protected Rent() {
-        super();
+    public Rent() {
     }
 
     public void setState(RentState state) {
