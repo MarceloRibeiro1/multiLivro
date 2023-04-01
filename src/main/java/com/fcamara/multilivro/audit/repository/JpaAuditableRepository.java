@@ -14,7 +14,7 @@ import java.util.UUID;
 @Transactional
 @NoRepositoryBean
 public interface JpaAuditableRepository<T extends AbstractAuditingEntity, ID extends UUID> extends JpaRepository<T, ID> {
-    @Query("select t from #{#entityName} t where t.deleted = false")
+    @Query("select t from #{#entityName} t where t.id = :id and t.deleted = false")
     @Modifying
     Optional<T> findById(ID id);
 
